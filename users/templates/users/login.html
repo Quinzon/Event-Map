@@ -1,0 +1,34 @@
+{% extends "users/authbase.html" %}
+
+{% load static %}
+
+{% block content %}
+<div class="main-auth">
+    <div class="main-auth-header">
+        <p>Вход</p>
+    </div>
+    <form class="main-auth-form" method="post" enctype="multipart/form-data" id="form" action="{% url 'login' %}">
+        {% csrf_token %}
+        <div class="main-auth-form-fild__item">
+            {{ form.username }}
+{#            {% if form.username.errors %}#}
+{#            <div class="main-auth-form-fild__error">{{ form.username.errors|join:"<br>" }}</div>#}
+{#            {% endif %}#}
+        </div>
+        <div class="main-auth-form-fild__item {% if form.password.errors %} main-auth-form-fild__item_error {% endif %}">
+            {{ form.password }}
+            {% if form.password.errors %}
+                <div class="main-auth-form-fild__error">{{ form.password.errors|join:"<br>" }}</div>
+            {% endif %}
+            {% if messages %}
+                <div class="main-auth-form-fild__error">
+                    {% for message in messages %}
+                        <div>{{ message }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+        <button type="submit" form="form" class="main-auth-form-submit__button">Войти</button>
+    </form>
+</div>
+{% endblock %}

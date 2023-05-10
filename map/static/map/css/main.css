@@ -1,0 +1,20 @@
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+:root {
+	--index: calc(1vw + 1vh);
+	--text: #e7e7e0;
+}
+
+header {
+    width: 100vw;
+    position: fixed;
+    z-index: 2;
+}
+.header-authorization {
+    float: right;
+    font-size: calc(var(--index) / 1.5);
+    padding-right:  calc(var(--index) / 4);
+}

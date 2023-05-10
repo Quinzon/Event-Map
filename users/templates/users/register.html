@@ -1,0 +1,39 @@
+{% extends "users/authbase.html" %}
+
+{% load static %}
+
+{% block content %}
+<div class="main-auth">
+    <div class="main-auth-header">
+        <p>Регистрация</p>
+    </div>
+    <form class="main-auth-form" method="post" enctype="multipart/form-data" id="form" action="{% url 'register' %}">
+        {% csrf_token %}
+        <div class="main-auth-form-fild__item">
+            {{ form.username }}
+{#            {% if form.username.errors %}#}
+{#              <div class="main-auth-form-fild__error">{{ form.username.errors|join:"<br>" }}</div>#}
+{#            {% endif %}#}
+        </div>
+        <div class="main-auth-form-fild__item">
+            {{ form.email }}
+{#            {% if form.email.errors %}#}
+{#                <div class="main-auth-form-fild__error">{{ form.email.errors|join:"<br>" }}</div>#}
+{#            {% endif %}#}
+        </div>
+        <div class="main-auth-form-fild__item {% if form.password2.errors %} main-auth-form-fild__item_error {% endif %}">
+            {{ form.password1 }}
+{#            {% if form.password1.errors %}#}
+{#              <div class="main-auth-form-fild__error">{{ form.password1.errors|join:"<br>" }}</div>#}
+{#            {% endif %}#}
+        </div>
+        <div class="main-auth-form-fild__item {% if form.password2.errors %} main-auth-form-fild__item_error {% endif %}">
+            {{ form.password2 }}
+            {% if form.password2.errors %}
+            <div class="main-auth-form-fild__error">{{ form.password2.errors|join:"<br>" }}</div>
+            {% endif %}
+        </div>
+        <button type="submit" form="form" class="main-auth-form-submit__button">Зарегистрироваться</button>
+    </form>
+</div>
+{% endblock %}

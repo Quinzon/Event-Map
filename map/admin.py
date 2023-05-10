@@ -1,3 +1,6 @@
 from django.contrib import admin
+from .models import EventInner, EventAPI
 
-# Register your models here.
+
+admin.site.register(EventInner)
+admin.site.register(EventAPI)

@@ -1,0 +1,86 @@
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+:root {
+	--index: calc(1vw + 1vh);
+	--text: #e7e7e0;
+}
+@font-face {
+	font-family: raleway_f;
+	src: url(../fonts/raleway-regular.woff2);
+}
+@font-face {
+	font-family: raleway_f;
+	src: url(../fonts/raleway-black.woff2);
+	font-weight: 900;
+}
+body {
+	width: 100vw;
+	height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+	background-image: url(../img/cat.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.main-auth {
+	width: 360px;
+	border-radius: 16px;
+	background: #131317;
+	padding: 32px;
+}
+.main-auth-header {
+	text-align: center;
+	color: var(--text);
+	font-size: 22px;
+	font-weight: 400;
+    line-height: 22px;
+	font-family: raleway_f;
+}
+.main-auth-form {
+	margin-top: 32px;
+	flex-direction: column;
+	justify-content: space-between;
+}
+.main-auth-form-fild__item {
+	margin-bottom: 24px;
+}
+.main-auth-form-fild__item input{
+	color: var(--text);
+	width: 100%;
+	border-radius: 8px;
+	font-size: 22px;
+	padding: 16px;
+	border: 1px solid #505050;
+	background: inherit;
+}
+.main-auth-form-fild__item input::placeholder{
+	padding: 0 4px;
+}
+.main-auth-form-fild__item_error input {
+	border: 1px solid red;
+}
+.main-auth-form-fild__error {
+	padding-top: 4px;
+	color: red;
+}
+.main-auth-form-submit__button {
+	background: #ffdc60;
+	color: #131317;
+	width: 100%;
+	padding: 13px;
+	font-size: 18px;
+	border-radius: 8px;
+	transition: ease-in 0.03s;
+}
+.main-auth-form-submit__button:hover {
+	background: #fc0;
+}
+.main-auth-form-submit__button:active {
+	transform: scale(0.97);
+}
