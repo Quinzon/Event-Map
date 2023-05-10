@@ -14,6 +14,7 @@ dist/
 *.db
 media/
 staticfiles/
+keys.py
 
 # IDEs
 .idea/

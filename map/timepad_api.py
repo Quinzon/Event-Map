@@ -2,6 +2,7 @@ import requests
 import psycopg2
 from psycopg2 import sql
 from datetime import datetime
+import keys
 
 
 def get_events_from_timepad_api(token, params=None):
@@ -93,13 +94,13 @@ def save_events_to_db(events, db_config):
 
 
 if __name__ == '__main__':
-    api_key = 'bc140ac6cf042dbe9f64de8827fb67786217e45b'
+    api_key = keys.Keys.TimePad_API
     events = get_events_from_timepad_api(api_key)
 
     db_config = {
         'dbname': 'postgres',
         'user': 'postgres',
-        'password': 'Ckjy9088',
+        'password': keys.Keys.DB_PASSWORD,
         'host': 'localhost',
         'port': '5432'
     }

@@ -3,6 +3,7 @@ import psycopg2
 from psycopg2 import sql
 from datetime import datetime, timezone
 from urllib.parse import quote
+import keys
 
 
 def get_events_from_kudago_api(api_key, params=None):
@@ -119,7 +120,7 @@ def save_events_to_db(events, db_config):
     conn.close()
 
 
-def geocode_address(address, api_key='79fa0edb-8f04-4c21-8c94-0d61cd1d2d2d'):
+def geocode_address(address, api_key=keys.Keys.Yandex_API):
     url = f'https://geocode-maps.yandex.ru/1.x/?apikey={api_key}&format=json&geocode={quote(address)}'
     response = requests.get(url)
 
@@ -141,7 +142,7 @@ if __name__ == '__main__':
     db_config = {
         'dbname': 'postgres',
         'user': 'postgres',
-        'password': 'Ckjy9088',
+        'password': keys.Keys.DB_PASSWORD,
         'host': 'localhost',
         'port': '5432'
     }
