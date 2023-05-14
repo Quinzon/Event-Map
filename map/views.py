@@ -13,3 +13,7 @@ def get_events(request):
     events_json = json.dumps([event.as_dict() for event in events])
 
     return render(request, "map/home.html", {"events_json": events_json, "Yandex_API": keys.Keys.Yandex_API})
+
+
+def event(request):
+    return render(request, "map/event.html")

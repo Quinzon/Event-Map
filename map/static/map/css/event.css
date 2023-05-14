@@ -1,0 +1,106 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+:root {
+	--index: calc(1vw + 1vh);
+	--text: #e7e7e0;
+}
+@font-face {
+	font-family: raleway_f;
+	src: url(../fonts/raleway-regular.woff2);
+}
+@font-face {
+	font-family: raleway_f;
+	src: url(../fonts/raleway-black.woff2);
+	font-weight: 900;
+}
+::-webkit-scrollbar {
+    width: 6px;
+}
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+::-webkit-scrollbar-thumb {
+    background-color: #ffdc60;
+    border-radius: 20px;
+	transition: background-color 0.4s ease-in-out;
+}
+:hover::-webkit-scrollbar-thumb {
+    background-color: inherit;
+}
+
+.event-header-nav {
+    display: flex;
+    justify-content: space-between;
+    position: fixed;
+    width: 100%;
+}
+.event-main {
+    font-family: raleway_f;
+    color: var(--text);
+	min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.event-main-content {
+    display: flex;
+    flex-direction: column;
+    border-radius: 10px;
+	background: #131317;
+    width: calc(var(--index) * 40);
+}
+.event-main-img {
+    width: 100%;
+    height: calc(var(--index) * 15);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+.event-main-title {
+    border-bottom: 1px solid white;
+    display: flex;
+    align-items: center;
+}
+.event-main-title h1 {
+    padding: 10px 15px;
+    font-size: calc(var(--index) * 1.5);
+}
+.event-main-org_info {
+    border-bottom: 1px solid white;
+    display: flex;
+    flex-direction: column;
+}
+.event-main-org_info p {
+    padding: 5px 15px;
+    font-size: calc(var(--index) * 0.85);
+}
+.event-main-description {
+    display: flex;
+}
+.event-main-description p {
+    padding: 10px 15px;
+    font-size: calc(var(--index) * 0.85);
+}
+.event-main-btn_subscribe {
+    display: flex;
+    justify-content: flex-end;
+}
+.event-main-btn_subscribe button {
+    border: 1px solid transparent;
+	background: #ffdc60;
+	color: #131317;
+	padding: 10px 20px;
+	font-size: calc(var(--index) * 0.85);
+	border-radius: 10px;
+	transition: ease-in 0.03s;
+}
+.event-main-btn_subscribe button:hover {
+	background: #fc0;
+}
+.event-main-btn_subscribe button:active {
+	transform: scale(0.97);
+}

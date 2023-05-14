@@ -70,6 +70,7 @@ body {
 	color: red;
 }
 .main-auth-form-submit__button {
+	border: 1px solid transparent;
 	background: #ffdc60;
 	color: #131317;
 	width: 100%;

@@ -20,7 +20,7 @@ def get_events_from_kudago_api(api_key, params=None):
     page = 1
     limit = 1000
     events = []
-    max_pages = 150
+    max_pages = 200
 
     while page <= max_pages:
         params.update({
@@ -43,7 +43,7 @@ def get_events_from_kudago_api(api_key, params=None):
         if len(new_events) < limit:
             break
 
-        print(f'KudaGO API {str((limit * page) / (limit * max_pages) * 100)[:5]}%')
+        print(f'KudaGO API {round((limit * page) / (limit * max_pages) * 100, 3)}%')
 
         page += 1
     return events
@@ -112,7 +112,7 @@ def save_events_to_db(events, db_config):
         """)
         cursor.execute(insert_query, event_data)
 
-        print(f'Yandex API {str(count / max_count * 100)[:5]}%')
+        print(f'Yandex API { round(count / max_count * 100, 4)}%')
 
     print('Yandex API 100%')
     conn.commit()
