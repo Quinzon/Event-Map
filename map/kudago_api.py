@@ -18,15 +18,15 @@ def get_events_from_kudago_api(api_key, params=None):
     url = 'https://kudago.com/public-api/v1.4/events/'
 
     page = 1
-    limit = 1000
+    limit = 200
     events = []
-    max_pages = 200
+    max_pages = 1000
 
     while page <= max_pages:
         params.update({
             'page': page,
             'page_size': limit,
-            'fields': 'id,title,description,location,dates,images,site_url,place',
+            'fields': 'id,title,description,location,dates,images,site_url,place,body_text',
             'expand': 'location,place,dates'
         })
 
@@ -65,27 +65,31 @@ def save_events_to_db(events, db_config):
         if date and datetime.strptime(date, '%Y-%m-%d %H:%M:%S').replace(tzinfo=timezone.utc) < current_datetime:
             continue
 
-        cursor.execute("SELECT id FROM map_eventapi WHERE id = %s", (event['id'],))
-        if cursor.fetchone():
-            continue
+        # cursor.execute("SELECT id FROM map_eventapi WHERE id = %s", (event['id'],))
+        # if cursor.fetchone():
+        #     continue
 
         if event.get('place', None) and event.get('location', None):
             address = event['location']['name'] + ' ' + event['place']['address']
         else:
             address = None
 
-        if address:
-            geocoded = geocode_address(address)
-            if geocoded:
-                location = ', '.join(map(str, reversed(geocoded)))
-            else:
-                location = None
+        location = None
+        cursor.execute("SELECT location FROM map_eventapi WHERE id = %s", (event['id'],))
+        result = cursor.fetchone()
+        if result and result[0]:
+            location = result[0]
         else:
-            location = None
+            if address:
+                geocoded = geocode_address(address)
+                if geocoded:
+                    location = ', '.join(map(str, reversed(geocoded)))
 
         image_url = event.get('images', [])[0]['image'] if event.get('images', []) else None
 
         description = event.get('description', '')
+
+        full_description = event.get('body_text', '')
 
         event_data = (
             event['id'],
@@ -95,12 +99,13 @@ def save_events_to_db(events, db_config):
             location,
             date,
             event.get('site_url', None),
-            image_url
+            image_url,
+            full_description
         )
 
         insert_query = sql.SQL("""
-            INSERT INTO map_eventapi (id, title, description, address, location, date, link, image)
-            VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+            INSERT INTO map_eventapi (id, title, description, address, location, date, link, image, full_description)
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
             ON CONFLICT (id) DO UPDATE
             SET title = EXCLUDED.title,
                 description = EXCLUDED.description,
@@ -108,7 +113,8 @@ def save_events_to_db(events, db_config):
                 location = EXCLUDED.location,
                 date = EXCLUDED.date,
                 link = EXCLUDED.link,
-                image = EXCLUDED.image;
+                image = EXCLUDED.image,
+                full_description = EXCLUDED.full_description;
         """)
         cursor.execute(insert_query, event_data)
 

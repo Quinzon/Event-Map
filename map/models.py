@@ -35,6 +35,7 @@ class EventInner(Event):
 
 class EventAPI(Event):
     image = models.URLField(max_length=500, null=True, blank=True)
+    full_description = models.TextField(null=True, blank=True)
 
     def as_dict(self):
         return {

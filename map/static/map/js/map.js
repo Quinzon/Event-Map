@@ -27,7 +27,7 @@ function init() {
   MyBalloonLayout = ymaps.templateLayoutFactory.createClass(
     '<div class="card" style="width: 18rem;">' +
         '<div class="card-header">' +
-            '<a href="{{properties.event.link}}">{{properties.event.title}}</a>' +
+            '<a href="event/{{properties.event.id}}">{{properties.event.title}}</a>' +
         '</div>' +
         '{% if properties.event.image_url %}' +
             '<img src="{{properties.event.image_url}}" class="card-img-top" alt="{{properties.event.title}}">' +

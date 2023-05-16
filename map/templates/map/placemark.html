@@ -1,7 +1,7 @@
 {% for event in events %}
     <div id="placemark-{{ event.id }}" style="display:none;">
         <a href="{{ event.link }}">{{ event.title }}</a>
-        <p>{{ event.description }}</p>
+        <p>{{ event.description|safe }}</p>
         {% if event.image_url %}
             <img src="{{ event.image_url }}" width="200">
         {% endif %}
