@@ -7,13 +7,10 @@
     <div class="main-auth-header">
         <p>Вход</p>
     </div>
-    <form class="main-auth-form" method="post" enctype="multipart/form-data" id="form" action="{% url 'login' %}">
+    <form class="main-auth-form" method="post" id="form" action="{% url 'login' %}">
         {% csrf_token %}
         <div class="main-auth-form-fild__item">
             {{ form.username }}
-{#            {% if form.username.errors %}#}
-{#            <div class="main-auth-form-fild__error">{{ form.username.errors|join:"<br>" }}</div>#}
-{#            {% endif %}#}
         </div>
         <div class="main-auth-form-fild__item {% if form.password.errors %} main-auth-form-fild__item_error {% endif %}">
             {{ form.password }}

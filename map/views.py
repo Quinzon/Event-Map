@@ -12,7 +12,7 @@ def get_events(request):
 
     events = list(chain(event_inner_queryset, event_api_queryset))
     events_json = json.dumps([event.as_dict() for event in events])
-
+    print(events[0].image)
     return render(request, "map/home.html", {"events_json": events_json, "Yandex_API": keys.Keys.Yandex_API})
 
 
@@ -22,6 +22,8 @@ def event_detail(request, event_id):
     except EventAPI.DoesNotExist:
         try:
             event = EventInner.objects.get(id=event_id)
+            if event.image:
+                event.image = event.image.url
         except EventInner.DoesNotExist:
             raise Http404("Event does not exist")
     return render(request, 'map/event.html', {'event': event})

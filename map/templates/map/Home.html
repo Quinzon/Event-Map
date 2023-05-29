@@ -4,13 +4,9 @@
     <script src="{% load static %}"></script>
     <meta charset="UTF-8">
     <title>$Title$</title>
-    <script src="https://api-maps.yandex.ru/2.1/?apikey={{ Yandex_API }}&lang=ru_RU"
-            type="text/javascript"></script>
+    <script src="https://api-maps.yandex.ru/2.1/?apikey={{ Yandex_API }}&lang=ru_RU" type="text/javascript"></script>
     <link rel="stylesheet" href="{% static 'map/css/main.css' %}">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
         const events_json = {{ events_json|safe }};
     </script>
@@ -23,6 +19,7 @@
     <header>
         <div class="header-authorization">
             {% if user.is_authenticated %}
+                <a href="{% url 'create_event' %}">Создать мероприятие</a>
                 <a href="{% url 'logout' %}">Выйти</a>
             {% else %}
                 <a href="{% url 'login' %}">Войти</a>

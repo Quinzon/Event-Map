@@ -17,20 +17,20 @@ function createPlacemark(event) {
 }
 
 function init() {
-  var myMap = new ymaps.Map("map", {
-    center: [56.010171, 92.852648],
-    zoom: 13,
-  }, {
-    suppressMapOpenBlock: true,
-  });
+    var myMap = new ymaps.Map("map", {
+        center: [56.010171, 92.852648],
+        zoom: 13,
+    }, {
+        suppressMapOpenBlock: true,
+    });
 
-  MyBalloonLayout = ymaps.templateLayoutFactory.createClass(
+MyBalloonLayout = ymaps.templateLayoutFactory.createClass(
     '<div class="card" style="width: 18rem;">' +
         '<div class="card-header">' +
             '<a href="event/{{properties.event.id}}">{{properties.event.title}}</a>' +
         '</div>' +
         '{% if properties.event.image_url %}' +
-            '<img src="{{properties.event.image_url}}" class="card-img-top" alt="{{properties.event.title}}">' +
+            '<img src="{{properties.event.image_url}}" class="card-img-top" alt="{{properties.event.title}}" style="width: 100%">' +
         '{% endif %}' +
         '{% if properties.event.description %}' +
         '<div class="card-body">' +
@@ -43,8 +43,7 @@ function init() {
         '</div>' +
         '{% endif %}' +
     '</div>',
-
-    );
+);
 
     myMap.controls.remove('typeSelector');
     myMap.controls.remove('trafficControl');
@@ -55,11 +54,11 @@ function init() {
     myMap.controls.remove('geolocationControl');
 
     myMap.controls.add('geolocationControl', {
-      float: 'none',
-      position: {
-        top: '55vh',
-        right: '5px'
-      }
+        float: 'none',
+        position: {
+            top: '55vh',
+            right: '5px'
+        }
     });
     myMap.controls.add('zoomControl', {
         size: 'small',
@@ -71,10 +70,10 @@ function init() {
     });
 
 
-  events_json.forEach((event) => {
-    if (event.location) {
-      const placemark = createPlacemark(event);
-      myMap.geoObjects.add(placemark);
-    }
-  });
+    events_json.forEach((event) => {
+        if (event.location) {
+            const placemark = createPlacemark(event);
+            myMap.geoObjects.add(placemark);
+        }
+    });
 }

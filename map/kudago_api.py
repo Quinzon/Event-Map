@@ -2,11 +2,11 @@ import requests
 import psycopg2
 from psycopg2 import sql
 from datetime import datetime, timezone
-from urllib.parse import quote
 import keys
+from yandex_api import geocode_address
 
 
-def get_events_from_kudago_api(api_key, params=None):
+def get_events_from_kudago_api(api_key, db_config, params=None):
     if params is None:
         params = {}
 
@@ -18,9 +18,9 @@ def get_events_from_kudago_api(api_key, params=None):
     url = 'https://kudago.com/public-api/v1.4/events/'
 
     page = 1
-    limit = 200
+    limit = 1000
     events = []
-    max_pages = 1000
+    max_pages = 200
 
     while page <= max_pages:
         params.update({
@@ -40,10 +40,12 @@ def get_events_from_kudago_api(api_key, params=None):
         new_events = response.json()['results']
         events.extend(new_events)
 
+        save_events_to_db(new_events, db_config)
+
         if len(new_events) < limit:
             break
 
-        print(f'KudaGO API {round((limit * page) / (limit * max_pages) * 100, 3)}%')
+        print(f'---Общий прогресс {round((limit * page) / (limit * max_pages) * 100, 3)}%---')
 
         page += 1
     return events
@@ -81,9 +83,7 @@ def save_events_to_db(events, db_config):
             location = result[0]
         else:
             if address:
-                geocoded = geocode_address(address)
-                if geocoded:
-                    location = ', '.join(map(str, reversed(geocoded)))
+                location = geocode_address(address)
 
         image_url = event.get('images', [])[0]['image'] if event.get('images', []) else None
 
@@ -126,25 +126,8 @@ def save_events_to_db(events, db_config):
     conn.close()
 
 
-def geocode_address(address, api_key=keys.Keys.Yandex_API):
-    url = f'https://geocode-maps.yandex.ru/1.x/?apikey={api_key}&format=json&geocode={quote(address)}'
-    response = requests.get(url)
-
-    if response.status_code == 200:
-        json_response = response.json()
-        if json_response['response']['GeoObjectCollection']['featureMember']:
-            coordinates_str = json_response['response']['GeoObjectCollection']['featureMember'][0]['GeoObject']['Point']['pos']
-            return [float(x) for x in coordinates_str.split()]
-        else:
-            return None
-    else:
-        raise Exception(f'Error geocoding address: {response.text}')
-
-
 if __name__ == '__main__':
     api_key = 'public-api'
-    events = get_events_from_kudago_api(api_key)
-
     db_config = {
         'dbname': 'postgres',
         'user': 'postgres',
@@ -152,5 +135,6 @@ if __name__ == '__main__':
         'host': 'localhost',
         'port': '5432'
     }
+    events = get_events_from_kudago_api(api_key, db_config)
 
-    save_events_to_db(events, db_config)
+    # save_events_to_db(events, db_config)

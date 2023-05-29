@@ -1,7 +1,7 @@
 from django import forms
+from map.models import EventInner
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
-from django.contrib.auth import password_validation
 
 
 class UserRegisterForm(UserCreationForm):
@@ -15,7 +15,6 @@ class UserRegisterForm(UserCreationForm):
         label=False,
         widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Пароль'}),
         strip=False,
-        # help_text=password_validation.password_validators_help_text_html(),
     )
     password2 = forms.CharField(
         label=False,
@@ -37,8 +36,39 @@ class UserRegisterForm(UserCreationForm):
 
 class UserLoginForm(AuthenticationForm):
     username = forms.CharField(
-        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Псевдоним'}),
+        label=False,
+        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Прозвище'}),
     )
     password = forms.CharField(
-        widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Пароль'})
+        label=False,
+        widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Пароль'}),
+        strip=False,
     )
+
+    class Meta:
+        model = User
+        fields = ['username', 'password']
+
+
+class EventForm(forms.ModelForm):
+    title = forms.CharField(
+        widget=forms.TextInput(attrs={'placeholder': 'Название'})
+    )
+    date = forms.DateTimeField(
+        widget=forms.DateTimeInput(attrs={'type': 'datetime-local',
+                                          'class': 'date-picker',
+                                          'placeholder': 'Дата и время проведения'})
+    )
+    address = forms.CharField(
+        widget=forms.TextInput(attrs={'type': 'text',
+                                      'id': 'address',
+                                      'oninput': 'delayedGeocode()',
+                                      'placeholder': 'Адрес события'})
+    )
+    description = forms.CharField(
+        widget=forms.Textarea(attrs={'placeholder': 'Описание вашего события'})
+    )
+
+    class Meta:
+        model = EventInner
+        fields = ['title', 'description', 'address', 'date', 'image']
