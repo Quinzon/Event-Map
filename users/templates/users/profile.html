@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h2>Профиль пользователя: {{ profile_user.username }}</h2>
+    <h3>Созданные мероприятия:</h3>
+    {% for event in events %}
+        <div>
+            <h4>{{ event.title }}</h4>
+            <p>Дата: {{ event.date }}</p>
+            <p>Адрес: {{ event.address }}</p>
+        </div>
+    {% endfor %}
+    <div style="width: 200px;height: 200px;background-image: url({{ profile.image.url }});background-size: cover"></div>
+    {% if user.id == profile.user_id %}
+        <a href="{% url 'profile-edit' %}">Update Profile</a>
+    {% endif %}
+</body>
+</html>

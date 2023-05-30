@@ -74,6 +74,15 @@
     padding: 10px 15px;
     font-size: calc(var(--index) * 1.5);
 }
+.event-main-organizer {
+    border-bottom: 1px solid white;
+    display: flex;
+    align-items: center;
+}
+.event-main-organizer h1 {
+    padding: 10px 15px;
+    font-size: calc(var(--index) * 1);
+}
 .event-main-org_info {
     border-bottom: 1px solid white;
     display: flex;

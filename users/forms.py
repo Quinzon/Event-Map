@@ -2,6 +2,7 @@ from django import forms
 from map.models import EventInner
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
+from users.models import Profile
 
 
 class UserRegisterForm(UserCreationForm):
@@ -72,3 +73,9 @@ class EventForm(forms.ModelForm):
     class Meta:
         model = EventInner
         fields = ['title', 'description', 'address', 'date', 'image']
+
+
+class ProfileUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ['image', 'first_name', 'last_name', 'bio', 'city']

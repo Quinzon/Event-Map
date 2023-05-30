@@ -20,6 +20,7 @@
         <div class="header-authorization">
             {% if user.is_authenticated %}
                 <a href="{% url 'create_event' %}">Создать мероприятие</a>
+                <a href="{% url 'profile' user.id %}">Мой профиль</a>
                 <a href="{% url 'logout' %}">Выйти</a>
             {% else %}
                 <a href="{% url 'login' %}">Войти</a>

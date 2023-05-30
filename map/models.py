@@ -1,4 +1,10 @@
 from django.db import models
+from django.contrib.auth.models import User
+import shortuuid
+
+
+def generate_short_uuid():
+    return shortuuid.ShortUUID().random(length=10)
 
 
 class Event(models.Model):
@@ -30,7 +36,8 @@ class Event(models.Model):
 
 
 class EventInner(Event):
-    pass
+    id = models.CharField(primary_key=True, default=generate_short_uuid, editable=False, max_length=10)
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE)
 
 
 class EventAPI(Event):
