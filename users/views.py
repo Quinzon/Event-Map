@@ -11,6 +11,9 @@ from django.contrib.auth.models import User
 from django.http import Http404
 from map.models import EventInner
 from .forms import ProfileUpdateForm
+from django.views.decorators.csrf import csrf_exempt
+from users.models import Profile, UserFavoriteProfile, UserFavoriteEvent
+from django.http import JsonResponse
 
 
 def register_user(request):
@@ -69,7 +72,11 @@ def profile_user(request, user_id):
         raise Http404("Пользователь не найден")
     profile = user.profile
     events = EventInner.objects.filter(created_by_id=user)
-    return render(request, 'users/profile.html', {'profile': profile, 'events': events})
+    if request.user.is_authenticated:
+        is_subscribed = UserFavoriteProfile.objects.filter(user=request.user, profile=profile).exists()
+    else:
+        is_subscribed = False
+    return render(request, 'users/profile.html', {'profile': profile, 'events': events, 'is_subscribed': is_subscribed})
 
 
 def profile_update(request):
@@ -85,3 +92,29 @@ def profile_update(request):
     else:
         form = ProfileUpdateForm(instance=request.user.profile)
     return render(request, 'users/profile_update.html', {'form': form})
+
+
+@csrf_exempt
+def toggle_profile_subscription(request):
+    if request.method == 'POST':
+        user_id = request.POST.get('user_id')
+        profile_id = request.POST.get('profile_id')
+
+        user = User.objects.get(id=user_id)
+        profile = Profile.objects.get(id=profile_id)
+
+        subscription, created = UserFavoriteProfile.objects.get_or_create(user=user, profile=profile)
+
+        if not created:
+            subscription.delete()
+            return JsonResponse({'subscribed': False})
+
+        return JsonResponse({'subscribed': True})
+
+
+@login_required
+def user_favourites(request):
+    favourites_events = UserFavoriteEvent.objects.filter(user=request.user)
+    favourites_profiles = UserFavoriteProfile.objects.filter(user=request.user)
+    return render(request, 'users/favourites.html', {'favourites_events': favourites_events,
+                                                     'favourites_profiles': favourites_profiles})

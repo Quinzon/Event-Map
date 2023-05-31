@@ -3,8 +3,15 @@
 <head>
     {% load static %}
     <meta charset="UTF-8">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <link rel="stylesheet" href="{% static 'map/css/event.css' %}">
+    <script src="{% static 'map/js/event.js' %}" type="text/javascript"></script>
     <title>{{ event.title }}</title>
+    {% csrf_token %}
+    <script>
+        var CSRF_TOKEN = $('input[name=csrfmiddlewaretoken]').val();
+        var user_id = '{{ user.id }}';
+    </script>
 </head>
 <body>
     <header>
@@ -16,15 +23,17 @@
     <main>
         <div class="event-main">
             <div class="event-main-content">
-                <div class="event-main-img" style="background-image: url({{ event.image.url }})"></div>
+                <div class="event-main-img" style="background-image: url({{ event.image }})"></div>
                 <div class="event-main-title">
                     <h1>{{ event.title }}</h1>
                 </div>
-                <div class="event-main-organizer">
-                    <a href="{% url 'profile' event.created_by.id %}">
-                        <h1>{{ event.created_by }}</h1>
-                    </a>
-                </div>
+                {% if is_inner_event %}
+                    <div class="event-main-organizer">
+                        <a href="{% url 'profile' event.created_by.id %}">
+                            <h1>{{ event.created_by }}</h1>
+                        </a>
+                    </div>
+                {% endif %}
                 {% if event.date or event.address %}
                     <div class="event-main-org_info">
                     {% if event.address %}
@@ -42,11 +51,19 @@
                         {{ event.description|safe }}
                     {% endif %}
                 </div>
-                <div class="event-main-btn_subscribe">
-                    <button>
-                        Подписаться
-                    </button>
-                </div>
+                {% if user.id %}
+                    <div class="event-main-btn_subscribe">
+                        <button class="subscribe-button"
+                                data-event-inner-id="{% if is_inner_event %}{{ event.id }}{% endif %}"
+                                data-event-api-id="{% if not is_inner_event %}{{ event.id }}{% endif %}">
+                            {% if is_subscribed %}Отписаться{% else %}Подписаться{% endif %}
+                        </button>
+                    </div>
+                {% else %}
+                    <div class="event-main-btn_subscribe">
+                        <button><a href="{% url 'login' %}">Войти чтобы подписаться</a></button>
+                    </div>
+                {% endif %}
             </div>
         </div>
     </main>

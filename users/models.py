@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from map.models import EventInner, EventAPI
 
 
 class Profile(models.Model):
@@ -27,13 +28,14 @@ def save_user_profile(sender, instance, **kwargs):
     instance.profile.save()
 
 
-# class UserFavoriteEvent(models.Model):
-#     user = models.ForeignKey(User, on_delete=models.CASCADE)
-#     event = models.ForeignKey(Event, on_delete=models.CASCADE)
-#     created_at = models.DateTimeField(auto_now_add=True)
-#
-#
-# class UserFollowing(models.Model):
-#     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='following')
-#     organizer = models.ForeignKey(User, on_delete=models.CASCADE, related_name='followers')
-#     created_at = models.DateTimeField(auto_now_add=True)
+class UserFavoriteEvent(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    event_inner = models.ForeignKey(EventInner, on_delete=models.CASCADE, null=True, blank=True)
+    event_api = models.ForeignKey(EventAPI, on_delete=models.CASCADE, null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+
+class UserFavoriteProfile(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)

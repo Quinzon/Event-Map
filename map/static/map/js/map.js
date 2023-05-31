@@ -1,7 +1,6 @@
 ymaps.ready(init);
 
 function createPlacemark(event) {
-    console.log(event.location.split(','))
     return new ymaps.Placemark(
         event.location.split(',').map(parseFloat), {
             event: event

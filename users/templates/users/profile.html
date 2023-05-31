@@ -1,8 +1,16 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
+    {% load static %}
     <meta charset="UTF-8">
-    <title>Title</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="{% static 'users/js/profile.js' %}" type="text/javascript"></script>
+    <title>{{ profile.user }}</title>
+    {% csrf_token %}
+    <script>
+        var CSRF_TOKEN = $('input[name=csrfmiddlewaretoken]').val();
+        var user_id = '{{ user.id }}';
+    </script>
 </head>
 <body>
     <h2>Профиль пользователя: {{ profile_user.username }}</h2>
@@ -15,8 +23,18 @@
         </div>
     {% endfor %}
     <div style="width: 200px;height: 200px;background-image: url({{ profile.image.url }});background-size: cover"></div>
-    {% if user.id == profile.user_id %}
-        <a href="{% url 'profile-edit' %}">Update Profile</a>
+    {% if user.id %}
+        {% if user.id == profile.user_id %}
+            <a href="{% url 'profile-edit' %}">Update Profile</a>
+        {% else %}
+            <button class="subscribe_to_profile-button" data-profile-id="{{ profile.id }}">
+                {% if is_subscribed %}Отписаться{% else %}Подписаться{% endif %}
+            </button>
+        {% endif %}
+    {% else %}
+        <div class="event-main-btn_subscribe">
+            <button><a href="{% url 'login' %}">Войти чтобы подписаться</a></button>
+        </div>
     {% endif %}
 </body>
 </html>

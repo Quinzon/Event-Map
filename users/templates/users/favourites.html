@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Избранное</title>
+</head>
+<body>
+    <h1>Мои избранные события и профили</h1>
+
+    <h2>События</h2>
+    <ul>
+        {% for favorite in favourites_events %}
+            <li>
+                {% if favorite.event_inner %}
+                    <a href="{% url 'event_detail' favorite.event_inner.id %}">{{ favorite.event_inner.title }}</a>
+                    {{ favorite.event_inner.address }}
+                    {{ favorite.event_inner.date }}
+                    <div style="width: 400px;height: 200px;
+                            background-image: url({{ favorite.event_inner.image.url }});
+                            background-size: cover"></div>
+                {% else %}
+                    <a href="{% url 'event_detail' favorite.event_api.id %}">{{ favorite.event_api.title }}</a>
+                    {{ favorite.event_api.address }}
+                    {{ favorite.event_api.date }}
+                    <div style="width: 400px;height: 200px;
+                            background-image: url({{ favorite.event_api.image }});
+                            background-size: cover"></div>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+
+    <h2>Профили</h2>
+    <ul>
+        {% for favorite in favourites_profiles %}
+            <li><a href="{% url 'profile' favorite.profile.user.id %}">{{ favorite.profile.user }}</a></li>
+            <div style="width: 200px;height: 200px;
+                            background-image: url({{ favorite.profile.image.url }});
+                            background-size: cover"></div>
+        {% endfor %}
+    </ul>
+</body>
+</html>
