@@ -4,7 +4,6 @@
     <script src="{% load static %}"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
-{#    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">#}
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <link rel="stylesheet" type="text/css" href="https://npmcdn.com/flatpickr/dist/themes/dark.css">
@@ -22,42 +21,40 @@
             <a href="#">Профиль</a>
         </div>
     </header>
-    <main>
-        <div class="create_event-main">
-            <div class="create_event-main-content">
-                <form method="POST" enctype="multipart/form-data">
-                    {% csrf_token %}
-                    <div class="create_event-main-img-preview">
-                        <div class="create_event-main-img">
-                            <label class="create_event-main-img-label">
-                                {{ form.image }}
-                                <span>Выберите изображение</span>
-                            </label>
-                        </div>
+    <main class="create_event-main">
+        <div class="create_event-main-content">
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="create_event-main-img-preview">
+                    <div class="create_event-main-img">
+                        <label class="create_event-main-img-label">
+                            {{ form.image }}
+                            <span>Выберите изображение</span>
+                        </label>
                     </div>
-                    <div class="create_event-main-title">
-                        {{ form.title }}
+                </div>
+                <div class="create_event-main-title">
+                    {{ form.title }}
+                </div>
+                <div class="create_event-main-org_info">
+                    <div class="create_event-main-org_info-addr_date">
+                        {{ form.address }}
+                        {{ form.date }}
                     </div>
-                    <div class="create_event-main-org_info">
-                        <div class="create_event-main-org_info-addr_date">
-                            {{ form.address }}
-                            {{ form.date }}
-                        </div>
-                        <div class="create_event-main-org_info-map">
-                            <button id="toggle-map" type="button">Показать карту</button>
-                            <div id="map" style="width: 30vw; height: 30vh"></div>
-                        </div>
+                    <div class="create_event-main-org_info-map">
+                        <button id="toggle-map" type="button">Показать карту</button>
+                        <div id="map" style="width: 30vw; height: 30vh"></div>
                     </div>
-                    <div class="create_event-main-description">
-                        {{ form.description }}
-                    </div>
-                    <div class="create_event-main-btn_create">
-                        <button type="submit">
-                            Разместить
-                        </button>
-                    </div>
-                </form>
-            </div>
+                </div>
+                <div class="create_event-main-description">
+                    {{ form.description }}
+                </div>
+                <div class="create_event-main-btn_create">
+                    <button type="submit">
+                        Разместить
+                    </button>
+                </div>
+            </form>
         </div>
     </main>
 </body>

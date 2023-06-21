@@ -72,11 +72,20 @@ def profile_user(request, user_id):
         raise Http404("Пользователь не найден")
     profile = user.profile
     events = EventInner.objects.filter(created_by_id=user)
+    favorite_profiles = UserFavoriteProfile.objects.filter(user_id=user)
     if request.user.is_authenticated:
-        is_subscribed = UserFavoriteProfile.objects.filter(user=request.user, profile=profile).exists()
+        subscribe_to_profiles_ids = UserFavoriteProfile.objects.filter(user=request.user).values_list('profile_id',
+                                                                                                      flat=True)
+        subscribe_to_events_ids = UserFavoriteEvent.objects.filter(user=request.user).values_list('event_inner_id',
+                                                                                                  flat=True)
     else:
-        is_subscribed = False
-    return render(request, 'users/profile.html', {'profile': profile, 'events': events, 'is_subscribed': is_subscribed})
+        subscribe_to_profiles_ids = False
+        subscribe_to_events_ids = False
+    return render(request, 'users/profile.html', {'profile': profile,
+                                                  'events': events,
+                                                  'favorite_profiles': favorite_profiles,
+                                                  'subscribe_to_profiles_ids': subscribe_to_profiles_ids,
+                                                  'subscribe_to_events_ids': subscribe_to_events_ids})
 
 
 def profile_update(request):
@@ -86,8 +95,9 @@ def profile_update(request):
             profile = form.save(commit=False)
             if not profile.image:
                 profile.image = 'default_images/anonymous.svg'
+            if not profile.background_image:
+                profile.background_image = 'default_images/profile_background_image.svg'
             profile.save()
-            messages.success(request, f'Your profile has been updated!')
             return redirect('profile', user_id=request.user.id)
     else:
         form = ProfileUpdateForm(instance=request.user.profile)

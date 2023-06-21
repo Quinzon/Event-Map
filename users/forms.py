@@ -78,4 +78,4 @@ class EventForm(forms.ModelForm):
 class ProfileUpdateForm(forms.ModelForm):
     class Meta:
         model = Profile
-        fields = ['image', 'first_name', 'last_name', 'bio', 'city']
+        fields = ['image', 'background_image', 'first_name', 'last_name', 'status', 'city']

@@ -14,7 +14,8 @@ class Event(models.Model):
     location = models.CharField(max_length=200, null=True, blank=True)
     date = models.DateTimeField(null=True, blank=True)
     link = models.URLField(max_length=500, null=True, blank=True)
-    image = models.ImageField(max_length=500, upload_to='event_images/', null=True, blank=True)
+    image = models.ImageField(max_length=500, upload_to='event_images/',
+                              default='default_images/event_image.svg', null=True, blank=True)
 
     class Meta:
         abstract = True

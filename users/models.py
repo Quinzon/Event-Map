@@ -8,9 +8,11 @@ from map.models import EventInner, EventAPI
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     image = models.ImageField(upload_to='profile_images/', default='default_images/anonymous.svg', blank=True)
+    background_image = models.ImageField(upload_to='profile_images/',
+                                         default='default_images/profile_background_image.svg', blank=True)
     first_name = models.CharField(max_length=30, null=True, blank=True)
     last_name = models.CharField(max_length=30, null=True, blank=True)
-    bio = models.TextField(max_length=500, null=True, blank=True)
+    status = models.TextField(max_length=100, null=True, blank=True)
     city = models.CharField(max_length=30, null=True, blank=True)
 
     def __str__(self):

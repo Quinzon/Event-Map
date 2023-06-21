@@ -38,6 +38,7 @@ def event_detail(request, event_id):
     else:
         is_subscribed = False
     return render(request, 'map/event.html', {'event': event,
+                                              'Yandex_API': keys.Keys.Yandex_API,
                                               'is_inner_event': is_inner_event,
                                               'is_subscribed': is_subscribed})
 
