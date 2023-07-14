@@ -34,30 +34,8 @@ ymaps.ready(init);
 function init(){
     myMap = new ymaps.Map("map", {
         center: [56.010171, 92.852648],
-        zoom: 17
-    });
-
-    myMap.controls.remove('typeSelector');
-    myMap.controls.remove('trafficControl');
-    myMap.controls.remove('fullscreenControl');
-    myMap.controls.remove('rulerControl');
-    myMap.controls.remove('searchControl');
-    myMap.controls.remove('zoomControl');
-    myMap.controls.remove('geolocationControl');
-    myMap.controls.add('geolocationControl', {
-        float: 'none',
-        position: {
-            top: '55vh',
-            right: '5px'
-        }
-    });
-    myMap.controls.add('zoomControl', {
-        size: 'small',
-        float: 'none',
-        position: {
-            top: '45vh',
-            right: '5px'
-        }
+        zoom: 17,
+        controls: []
     });
 }
 

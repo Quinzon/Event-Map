@@ -126,5 +126,11 @@ def toggle_profile_subscription(request):
 def user_favourites(request):
     favourites_events = UserFavoriteEvent.objects.filter(user=request.user)
     favourites_profiles = UserFavoriteProfile.objects.filter(user=request.user)
+    subscribe_to_profiles_ids = UserFavoriteProfile.objects.filter(user=request.user).values_list('profile_id',
+                                                                                                  flat=True)
+    subscribe_to_events_ids = UserFavoriteEvent.objects.filter(user=request.user).values_list('event_inner_id',
+                                                                                              flat=True)
     return render(request, 'users/favourites.html', {'favourites_events': favourites_events,
-                                                     'favourites_profiles': favourites_profiles})
+                                                     'favourites_profiles': favourites_profiles,
+                                                     'subscribe_to_profiles_ids': subscribe_to_profiles_ids,
+                                                     'subscribe_to_events_ids': subscribe_to_events_ids})

@@ -51,18 +51,25 @@ $(document).ready(function() {
 });
 
 $(document).ready(function() {
-    var modal = document.querySelector(".main-modal_favorite_profiles");
-    var btn = document.querySelector(".main-favorite_profiles");
-    var span = document.getElementsByClassName("main-modal_favorite_profiles-close")[0];
-    btn.onclick = function() {
-      modal.style.display = "block";
-    }
-    span.onclick = function() {
-      modal.style.display = "none";
-    }
-    window.onclick = function(event) {
-      if (event.target == modal) {
-        modal.style.display = "none";
-      }
+    window.onload = function() {
+        var choiceEvents = document.querySelector(".main-choice_events");
+        var choiceProfiles = document.querySelector(".main-choice_profiles");
+
+        var blockEvents = document.querySelector(".main-events");
+        var blockProfiles = document.querySelector(".main-favorite_profiles");
+
+        choiceEvents.addEventListener("click", function() {
+            blockEvents.style.display = "flex";
+            blockProfiles.style.display = "none";
+            choiceEvents.classList.add("main-choice-selected");
+            choiceProfiles.classList.remove("main-choice-selected");
+        });
+
+        choiceProfiles.addEventListener("click", function() {
+            blockProfiles.style.display = "flex";
+            blockEvents.style.display = "none";
+            choiceProfiles.classList.add("main-choice-selected");
+            choiceEvents.classList.remove("main-choice-selected");
+        });
     }
 });
