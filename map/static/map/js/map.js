@@ -70,7 +70,9 @@ function showInfoBox(event, cluster) {
     infoBox.appendChild(closeButton);
 
     document.querySelector('.main-info_box').style.display = 'block';
-    setTimeout(updateHeight, 100);
+    setTimeout(updateHeight, 200);
+    setTimeout(updateHeight, 1000);
+    setTimeout(updateHeight, 5000);
 }
 
 function createPlacemark(event) {
@@ -109,7 +111,7 @@ function createClusterLayout() {
 
 function init() {
     myMap = new ymaps.Map("map", {
-        center: [56.010171, 92.852648],
+        center: [55.7522, 37.6156],
         zoom: 13,
     }, {
         suppressMapOpenBlock: true,
@@ -122,21 +124,27 @@ function init() {
     myMap.controls.remove('searchControl');
     myMap.controls.remove('zoomControl');
     myMap.controls.remove('geolocationControl');
-    myMap.controls.add('geolocationControl', {
-        float: 'none',
-        position: {
-            top: '55vh',
-            right: '5px'
-        }
+
+    document.getElementById('zoomIn').addEventListener('click', function() {
+        var zoom = myMap.getZoom();
+        myMap.setCenter(myMap.getCenter(), zoom + 1, {duration: 200});
     });
-    myMap.controls.add('zoomControl', {
-        size: 'small',
-        float: 'none',
-        position: {
-            top: '45vh',
-            right: '5px'
-        }
+    document.getElementById('zoomOut').addEventListener('click', function() {
+        var zoom = myMap.getZoom();
+        myMap.setCenter(myMap.getCenter(), zoom - 1, {duration: 200});
     });
+    document.getElementById('locateMe').addEventListener('click', function() {
+        ymaps.geolocation.get().then(function (res) {
+            var coords = res.geoObjects.position;
+            myMap.setCenter(coords, myMap.getZoom(), {duration: 400});
+
+            var placemark = new ymaps.Placemark(coords, {}, {
+                preset: 'islands#redDotIcon'
+            });
+            myMap.geoObjects.add(placemark);
+        });
+    });
+
 
     var clusterer = new ymaps.Clusterer({
         preset: 'islands#invertedVioletClusterIcons',

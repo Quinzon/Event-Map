@@ -30,6 +30,24 @@
     background-color: inherit;
 }
 
+.event-header {
+    display: flex;
+    font-family: raleway_f, serif;
+}
+.event-header-navigation {
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: calc(var(--index) * 0.15);
+}
+.event-header-navigation a {
+    color: var(--text);
+    text-decoration: none;
+    font-size: calc(var(--index) * 0.75);
+}
+.event-header-navigation a:hover {
+    text-decoration: underline;
+}
 .event-header-nav {
     display: flex;
     justify-content: space-between;
@@ -69,10 +87,11 @@
     border-bottom: 1px solid white;
     display: flex;
     align-items: center;
+    font-size: calc(var(--index) * 1);
+    overflow: hidden;
 }
 .event-main-title h1 {
     padding: 10px 15px;
-    font-size: calc(var(--index) * 1.5);
 }
 .event-main-organizer {
     border-bottom: 1px solid white;
@@ -104,11 +123,11 @@
 .event-main-org_info-addr_date {
     display: flex;
     flex-direction: column;
-    min-width: calc(var(--index) * 18);
+    width: calc(var(--index) * 25);
 }
 .event-main-org_info-map {
     position: relative;
-    min-width: calc(var(--index) * 10);
+    width: calc(var(--index) * 15);
 }
 .event-main-org_info-map button {
     position: absolute;
@@ -157,4 +176,10 @@
 }
 .event-main-btn_subscribe button:active {
 	transform: scale(0.97);
+}
+
+@media (max-width: 1200px) {
+    :root {
+        --index: calc(0.80vw + 0.80vh);
+    }
 }

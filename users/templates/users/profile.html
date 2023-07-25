@@ -15,6 +15,9 @@
 </head>
 <body>
     <header class="header">
+        <div class="header-navigation">
+            <a href="{% url 'home' %}">На главную</a>
+        </div>
         <div class="header-content">
             <div class="header-background_image" style="background-image: url({{ profile.background_image.url }});"></div>
             <div class="header-info">

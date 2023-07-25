@@ -26,14 +26,16 @@ $(document).ready(function() {
 
 $(document).ready(function() {
     $('.subscribe_to_event').click(function() {
-        var button = $(this);
-        var event_inner_id = button.data('event-id');
-        var data = {
-            csrfmiddlewaretoken: CSRF_TOKEN,
-            user_id: user_id,
-            event_inner_id: event_inner_id,
-            event_api_id: '',
-        };
+    var button = $(this);
+    var event_id = button.data('event-id');
+    var event_id_number = parseInt(event_id);
+    var isNumber = !isNaN(event_id_number);
+    var data = {
+        csrfmiddlewaretoken: CSRF_TOKEN,
+        user_id: user_id,
+        event_inner_id: !isNumber ? event_id : '',
+        event_api_id: isNumber ? event_id : '',
+    };
 
         $.ajax({
             url: '/toggle_event_subscription/',

@@ -136,5 +136,3 @@ if __name__ == '__main__':
         'port': '5432'
     }
     events = get_events_from_kudago_api(api_key, db_config)
-
-    # save_events_to_db(events, db_config)

@@ -15,16 +15,17 @@
     </script>
 </head>
 <body>
-    <header>
-        <div class="event-header-nav">
-            <a href="#">Назад</a>
-            <a href="#">Профиль</a>
+    <header class="event-header">
+        <div class="event-header-navigation">
+            <a href="{% url 'home' %}">На главную</a>
         </div>
     </header>
     <main>
         <div class="event-main">
             <div class="event-main-content">
-                <div class="event-main-img" style="background-image: url({{ event.image }})"></div>
+                {% if event.image %}
+                    <div class="event-main-img" style="background-image: url({{ event.image }})"></div>
+                {% endif %}
                 <div class="event-main-title">
                     <h1>{{ event.title }}</h1>
                 </div>
@@ -48,7 +49,7 @@
                         {% if event.address %}
                             <div class="event-main-org_info-map">
                                 <button id="toggle-map" type="button">Показать карту</button>
-                                <div id="map" style="width: 30vw; height: 30vh"></div>
+                                <div id="map" style="width: 100%; height: 30vh"></div>
                             </div>
                         {% endif %}
                     </div>

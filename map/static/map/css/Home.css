@@ -40,10 +40,63 @@ header {
     position: fixed;
     z-index: 2;
 }
-.header-authorization {
+.header-navigation {
     float: right;
     font-size: calc(var(--index) / 1.5);
-    padding-right:  calc(var(--index) / 4);
+    margin-right:  calc(var(--index) / 4);
+    padding: calc(var(--index) / 5);
+    background-color: var(--background);
+    border-radius: var(--border-radius);
+}
+.header-navigation-authorization a {
+    text-decoration: none;
+    color: var(--text);
+}
+.header-navigation-authorization a:hover {
+    text-decoration: underline;
+}
+.header-navigation-function a {
+    text-decoration: none;
+    display: inline-block;
+}
+
+.map-controls {
+    position: absolute;
+    right: 5px;
+    top: 35vh;
+}
+.map-controls-zoom {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: calc(var(--index) * 0.75);
+}
+.map-controls-zoom button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: sans-serif;
+    font-size: calc(var(--index) * 1.75);
+    color: #ffdc60;
+    background-color: var(--background);
+    border: none;
+    padding: 0 calc(var(--index) * 0.5);
+    border-radius: var(--border-radius);
+}
+.map-controls-zoom button:hover {
+    background-color: white;
+    color: #fc0;
+}
+.map-controls-locate button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--background);
+    padding: calc(var(--index) * 0.26);
+    border-radius: var(--border-radius);
+    border: none;
+}
+.map-controls-locate button:hover {
+    background-color: white;
 }
 
 .main-info_box {
@@ -77,6 +130,7 @@ header {
 }
 .main-info_box-event-title {
     padding: calc(var(--index) * 0.25) calc(var(--index) * 0.5);
+    overflow: hidden;
 }
 .main-info_box-event-title a {
     font-size: calc(var(--index) * 1);
@@ -117,14 +171,6 @@ header {
     left: calc(var(--index) * 15);
 }
 
-.svg-close {
-    width: calc(var(--index) * 1.5);
-    height: calc(var(--index) * 1.5);
-}
-.svg-close:hover .d {
-    fill: #fc0;
-}
-
 .cluster-layout {
     background-color: #cc3300;
     border-radius: 50%;
@@ -142,4 +188,53 @@ header {
 .cluster-number {
     font-family: "Roboto", "Lucida Grande", Verdana, Arial, sans-serif;
     font-size: 10px;;
+}
+
+.svg-close {
+    width: calc(var(--index) * 1.5);
+    height: calc(var(--index) * 1.5);
+}
+.svg-close:hover .d {
+    fill: #fc0;
+}
+.svg-logout {
+    width: calc(var(--index) * 1.5);
+    height: calc(var(--index) * 1.5);
+}
+.svg-logout:hover path {
+    fill: #fc0;
+}
+.svg-profile {
+    width: calc(var(--index) * 1.5);
+    height: calc(var(--index) * 1.5);
+}
+.svg-profile:hover path  {
+    fill: #fc0;
+}
+.svg-favorite {
+    width: calc(var(--index) * 1.5);
+    height: calc(var(--index) * 1.5);
+}
+.svg-favorite:hover {
+    fill: #fc0;
+}
+.svg-create_event {
+    width: calc(var(--index) * 1.5);
+    height: calc(var(--index) * 1.5);
+}
+.svg-create_event:hover {
+    fill: #fc0;
+}
+.svg-location {
+    width: calc(var(--index) * 1.5);
+    height: calc(var(--index) * 1.5);
+}
+.svg-location:hover path{
+    fill: #fc0;
+}
+
+@media (max-width: 1200px) {
+    .header-navigation {
+        font-size: calc(var(--index) * 1.25);
+    }
 }

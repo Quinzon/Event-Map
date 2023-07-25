@@ -129,7 +129,7 @@
 .create_event-main-org_info-addr_date {
     display: flex;
     flex-direction: column;
-    min-width: calc(var(--index) * 18);
+    width: calc(var(--index) * 25);
 }
 .create_event-main-org_info input {
     padding: 5px 15px;
@@ -141,7 +141,7 @@
 }
 .create_event-main-org_info-map {
     position: relative;
-    min-width: calc(var(--index) * 10);
+    width: calc(var(--index) * 15);
 }
 .create_event-main-org_info-map button {
     position: absolute;
@@ -198,5 +198,8 @@
 	transform: scale(0.97);
 }
 
-
-
+@media (max-width: 1200px) {
+    :root {
+        --index: calc(0.80vw + 0.80vh);
+    }
+}

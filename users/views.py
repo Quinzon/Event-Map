@@ -9,11 +9,12 @@ from map.yandex_api import geocode_address
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.http import Http404
-from map.models import EventInner
+from map.models import EventInner, EventAPI
 from .forms import ProfileUpdateForm
 from django.views.decorators.csrf import csrf_exempt
 from users.models import Profile, UserFavoriteProfile, UserFavoriteEvent
 from django.http import JsonResponse
+from itertools import chain
 
 
 def register_user(request):
@@ -124,12 +125,25 @@ def toggle_profile_subscription(request):
 
 @login_required
 def user_favourites(request):
-    favourites_events = UserFavoriteEvent.objects.filter(user=request.user)
     favourites_profiles = UserFavoriteProfile.objects.filter(user=request.user)
     subscribe_to_profiles_ids = UserFavoriteProfile.objects.filter(user=request.user).values_list('profile_id',
                                                                                                   flat=True)
-    subscribe_to_events_ids = UserFavoriteEvent.objects.filter(user=request.user).values_list('event_inner_id',
-                                                                                              flat=True)
+    subscribe_to_events_ids = []
+    for event in UserFavoriteEvent.objects.filter(user=request.user):
+        subscribe_to_events_ids.append(event.event_api_id or event.event_inner_id)
+
+    subscribe_to_api_events_ids = []
+    subscribe_to_inner_events_ids = []
+    for event in UserFavoriteEvent.objects.filter(user=request.user):
+        if event.event_api_id:
+            subscribe_to_api_events_ids.append(event.event_api_id)
+        elif event.event_inner_id:
+            subscribe_to_inner_events_ids.append(event.event_inner_id)
+
+    events_api = EventAPI.objects.filter(id__in=subscribe_to_api_events_ids)
+    events_inner = EventInner.objects.filter(id__in=subscribe_to_inner_events_ids)
+
+    favourites_events = list(events_api) + list(events_inner)
     return render(request, 'users/favourites.html', {'favourites_events': favourites_events,
                                                      'favourites_profiles': favourites_profiles,
                                                      'subscribe_to_profiles_ids': subscribe_to_profiles_ids,
