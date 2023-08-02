@@ -58,7 +58,7 @@
                     {% if event.full_description %}
                         {{ event.full_description|safe }}
                     {% else %}
-                        {{ event.description|safe }}
+                        {{ event.description|linebreaks }}
                     {% endif %}
                 </div>
                 {% if user.id %}
